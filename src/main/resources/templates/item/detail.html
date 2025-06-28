@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title th:text="${item.name}">Item</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin/>
+  <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+  />
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,"/>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+
+<body class="relative flex min-h-screen flex-col bg-white" style="font-family: Manrope, 'Noto Sans', sans-serif">
+<div class="layout-container flex h-full grow flex-col px-10 py-5 max-w-7xl mx-auto">
+  <a th:href="@{/items}" class="mb-10 inline-block" aria-label="Back to Items">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 hover:bg-indigo-200">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              class="w-6 h-6 text-black"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </span>
+  </a>
+
+  <section class="mb-8">
+    <h1 class="text-3xl font-bold text-[#121416] mb-2" th:text="${item.name}">Item Name</h1>
+    <p class="mb-1">
+      <strong>Description:</strong>
+      <span th:text="${item.description}">Item Description</span>
+    </p>
+    <p class="mb-1">
+      <strong>Weight:</strong>
+      <span th:text="${item.weight}">0.0</span> kg
+    </p>
+    <p class="mb-1"><strong>Price:</strong> $<span th:text="${item.price}">0.0</span></p>
+    <p class="mb-1">
+      <strong>In Stock:</strong>
+      <span th:text="${item.inStock}">0</span>
+    </p>
+
+    <h2 class="mt-4 font-semibold">Categories:</h2>
+    <ul class="list-disc list-inside">
+      <li th:each="cat : ${item.categories}" th:text="${cat.name}">Category Name</li>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <p class="text-[#121416] tracking-light text-[32px] font-bold leading-tight mb-4">
+      Wishlists containing this item
+    </p>
+
+    <div class="overflow-hidden rounded-xl border border-[#dde0e3] bg-white">
+      <table class="w-full table-fixed">
+        <thead>
+        <tr class="bg-white border-b border-[#dde0e3]">
+          <th
+              class="px-4 py-3 text-left text-[#121416] w-[400px] text-sm font-medium leading-normal table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-120"
+          >
+            Wishlist Name
+          </th>
+          <th
+              class="px-4 py-3 text-left text-[#121416] w-[400px] text-sm font-medium leading-normal table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-240"
+          >
+            Owner
+          </th>
+          <th
+              class="px-4 py-3 text-left text-[#121416] w-[400px] text-sm font-medium leading-normal table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-360"
+          >
+            Items Count
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="border-t border-t-[#dde0e3]" th:each="wishlist : ${item.wishlists}">
+          <td
+              class="h-[72px] px-4 py-2 text-[#121416] text-sm font-normal leading-normal table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-120"
+              th:text="${wishlist.name}"
+          >
+            Wishlist Name
+          </td>
+          <td
+              class="h-[72px] px-4 py-2 text-[#6a7581] text-sm font-normal leading-normal table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-240"
+              th:text="${wishlist.buyer.username}"
+          >
+            Owner Name
+          </td>
+          <td
+              class="h-[72px] px-4 py-2 text-[#6a7581] text-sm font-normal leading-normal table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-360"
+              th:text="${wishlist.items.size()}"
+          >
+            0
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <style>
+          @container (max-width: 120px) {
+              .table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-120 {
+                  display: none;
+              }
+          }
+
+          @container (max-width: 240px) {
+              .table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-240 {
+                  display: none;
+              }
+          }
+
+          @container (max-width: 360px) {
+              .table-75264f03-1117-43ee-8498-e1e226b3a9e7-column-360 {
+                  display: none;
+              }
+          }
+      </style>
+    </div>
+  </section>
+</div>
+</body>
+</html>

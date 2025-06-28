@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: FinalProject
+
+  datasource:
+    url: jdbc:h2:file:./db/final
+#    url: jdbc:h2:mem:final
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    generate-ddl: true
+    show-sql: false
+#    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false

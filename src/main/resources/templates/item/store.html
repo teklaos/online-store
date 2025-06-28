@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Store</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin/>
+  <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Manrope:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900"
+  />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+
+<body class="bg-white font-sans" style="font-family: Manrope, 'Noto Sans', sans-serif">
+<div class="max-w-4xl mx-auto px-6 py-10">
+  <div class="mb-6">
+    <a
+        href="/wishlists"
+        class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition"
+    >
+      Wishlists
+    </a>
+  </div>
+  <h1 class="text-3xl font-bold text-[#121416] mb-8">Store</h1>
+
+  <div class="space-y-8">
+    <div
+        th:each="item : ${items}"
+        class="border border-[#dde0e3] rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between"
+    >
+      <div>
+        <h2 class="text-xl font-semibold text-[#121416]" th:text="${item.name}">Item Name</h2>
+        <p
+            class="text-gray-600 mt-1"
+            th:text="'Price: $' + ${#numbers.formatDecimal(item.price, 1, 'COMMA', 2, 'POINT')}"
+        >
+          Price: $0.00
+        </p>
+
+        <div
+            class="mt-2 text-sm text-indigo-600 font-medium"
+            th:if="${item.wishlists != null and #lists.size(item.wishlists) > 0}"
+        >
+          <span>Added to: </span>
+          <span th:each="wishlist, iterStat : ${item.wishlists}">
+                <span th:text="${wishlist.name}">Wishlist Name</span><span th:if="${!iterStat.last}">, </span>
+              </span>
+        </div>
+      </div>
+
+      <form
+          th:action="@{/items/{itemId}/add(itemId=${item.id})}"
+          method="post"
+          class="mt-4 md:mt-0 flex items-center gap-3"
+      >
+        <label for="wishlist-select" class="sr-only">Select Wishlist</label>
+        <select
+            name="wishlistId"
+            id="wishlist-select"
+            required
+            class="appearance-none border border-gray-300 rounded-md py-2 px-3 pr-8 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+        >
+          <option value="" disabled selected>Select Wishlist</option>
+          <option th:each="wishlist : ${wishlists}" th:value="${wishlist.id}" th:text="${wishlist.name}">
+            Wishlist
+          </option>
+        </select>
+
+        <button
+            type="submit"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md"
+        >
+          Add to Wishlist
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+    window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem('scrollPos', window.scrollY);
+    });
+
+    window.addEventListener('load', () => {
+        const scrollPos = sessionStorage.getItem('scrollPos');
+        if (scrollPos) {
+            window.scrollTo(0, parseInt(scrollPos));
+            sessionStorage.removeItem('scrollPos');
+        }
+    });
+</script>
+</body>
+</html>

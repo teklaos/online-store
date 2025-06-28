@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title th:text="${wishlist.name}">Wishlist</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin/>
+  <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+  />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body>
+<div
+    class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
+    style="font-family: Manrope, 'Noto Sans', sans-serif"
+>
+  <div class="layout-container flex h-full grow flex-col">
+    <div class="gap-1 px-6 flex flex-1 justify-start py-5">
+      <div class="layout-content-container flex flex-col w-72">
+        <div class="flex h-full min-h-[700px] flex-col justify-between bg-white p-4 overflow-y-auto">
+          <div class="flex flex-col gap-4">
+            <a
+                href="/items/store"
+                class="w-24 inline-flex items-center justify-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition"
+            >
+              Store
+            </a>
+
+            <h1 class="text-[#121416] text-base font-medium leading-normal mt-4">Wishlists</h1>
+            <ul>
+              <li th:each="wishlist : ${wishlists}" class="mb-3">
+                <a
+                    th:href="@{/wishlists/{id}(id=${wishlist.id})}"
+                    th:text="${wishlist.name}"
+                    class="text-blue-600 hover:underline"
+                >
+                  Wishlist Name
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <main
+          class="layout-main-container flex min-h-[700px] flex-col grow rounded-2xl border border-[#f1f2f4] bg-white p-6 overflow-y-auto"
+      >
+        <a th:href="@{/wishlists}" class="mb-10 inline-block" aria-label="Back to Wishlists">
+              <span
+                  class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 hover:bg-indigo-200"
+              >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="w-6 h-6 text-black"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </span>
+        </a>
+
+        <section class="mb-8">
+          <h1 class="text-3xl font-bold text-[#121416] mb-6" th:text="${wishlist.name}">Wishlist Name</h1>
+
+          <div class="overflow-hidden rounded-xl border border-[#dde0e3] bg-white">
+            <table class="w-full table-fixed">
+              <thead>
+              <tr class="bg-white border-b border-[#dde0e3]">
+                <th class="px-4 py-3 text-left text-[#121416] text-sm font-medium w-1/2">Item Name</th>
+                <th class="px-4 py-3 text-left text-[#121416] text-sm font-medium w-1/2">Price (USD)</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="item : ${wishlist.items}" class="border-t border-t-[#dde0e3]">
+                <td class="h-[72px] px-4 py-2 text-[#121416] text-sm" th:text="${item.name}">Item Name</td>
+                <td class="h-[72px] px-4 py-2 text-[#6a7581] text-sm">
+                        <span th:text="${#numbers.formatDecimal(item.price, 1, 'COMMA', 2, 'POINT') + ' $'}">
+                          0.00 $
+                        </span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</div>
+</body>
+</html>
